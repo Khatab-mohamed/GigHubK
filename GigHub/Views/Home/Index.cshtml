@@ -1,10 +1,10 @@
-﻿@model IEnumerable<GigHub.Models.Gig>
+﻿@model GigHub.ViewModel.HomeViewModel
 @{
     ViewBag.Title = "Home Page";
 }
 
 <ul class="gigs">
-    @foreach (var gig in  Model)
+    @foreach (var gig in Model.UpcomingGigs)
     {
         <li>
             <div class="date">
@@ -18,28 +18,51 @@
             <div class="details">
                 <span class="artist">
                     @gig.Artist.Name
-                </span>
+                    @if (Model.ShowActions)
+                    {
+                        <button class=" btn btn-link btn-sm js-toggle-follow" data-user-id="@gig.ArtistId">Follow</button>
+                    }
+            </span>
                 <span class="genre">
                     @gig.Genre.Name
                 </span>
-                <button  class="btn btn-default js-toggle-attendance pull-right btn-sm" data-gig-id="@gig.Id">Going?</button>
-            </div>
-        </li>
+            @if (Model.ShowActions)
+            {
+                <button class="btn btn-default js-toggle-attendance pull-right btn-sm" data-gig-id="@gig.Id">Going?</button>
+            }
+        </div>
+    </li>
     }
 </ul>
+
 @section scripts
 {
     <script>
         $(document).ready(function() {
             $(".js-toggle-attendance").click(function(e) {
+                var button = $(e.target);
+                $.post("/api/attendances", { gigId: button.attr("data-gig-id")
+                    })
+                    .done(function() {
+                        button
+                            .remove("btn-default")
+                            .addClass("btn-info")
+                            .text("Going");
+                    })
+                    .fail(function() {
+                        alert("Something failed!");
+                    });
+            });
+        });
+
+        $(document).ready(function() {
+            $(".js-toggle-follow").click(function(e) {
                     var button = $(e.target);
-                    $.post("/api/attendances", { gigId: button.attr("data-gig-id")
+                    $.post("/api/followings", { followeeId: button.attr("data-user-id")
                 })
                 .done(function() {
                     button
-                        .remove("btn-default")
-                        .addClass("btn-info")
-                        .text("Going");
+                        .text("Following");
                 })
                 .fail(function() {
                     alert("Something failed!");
