@@ -90,15 +90,22 @@ h6,
     -webkit-box-shadow: none;
 }
 .btn {
-    font-size: 17px;
-    padding: 7px 20px;
+    /*font-size: 17px;
+    padding: 7px 20px;*/
     -ms-border-radius: 9px;
     border-radius: 9px;
 }
+.pull-right {
+    float: right !important;
+    position: fixed;
+    margin-left: 32px;
+}
+
 .dropdown-menu {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
 
 
 
@@ -131,7 +138,7 @@ h6,
 }
 
 .gigs > li .date .day {
-        background: #cfcccc;
+        background: #ebebeb;
         color: #333;
         font-size: 20px;
         padding: 6px 12px;
