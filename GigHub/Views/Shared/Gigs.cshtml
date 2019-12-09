@@ -18,20 +18,25 @@
             <div class="details">
                 <span class="artist">
                     @gig.Artist.Name
-                    @if (Model.ShowActions)
+                    @if (gig.Iscanceled)
                     {
-                        <button class=" btn btn-link btn-sm js-toggle-follow" data-user-id="@gig.ArtistId">Follow</button>
+                        <span class="label label-warning">Canceled</span>
                     }
-            </span>
-                <span class="genre">
-                    @gig.Genre.Name
-                </span>
-            @if (Model.ShowActions)
-            {
-                <button class="btn btn-default js-toggle-attendance pull-right btn-sm" data-gig-id="@gig.Id">Going?</button>
-            }
-        </div>
-    </li>
+                        @if (Model.ShowActions)
+                    {
+                            <button class=" btn btn-link btn-sm js-toggle-follow" data-user-id="@gig.ArtistId">Follow</button>
+                            }
+                    </span>
+                    <span class="genre">
+                        @gig.Genre.Name
+                    </span>
+                    @if (Model.ShowActions && !gig.Iscanceled)
+                    {
+
+                        <button class="btn btn-default js-toggle-attendance pull-right btn-sm" data-gig-id="@gig.Id">Going?</button>
+                    }
+                </div>
+            </li>
     }
 </ul>
 
